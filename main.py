@@ -95,11 +95,12 @@ args = [f'X={x_res};', f'Y={y_res};', 'cnt', '$Y', '$X', '|', 'rcalc', '-f',
 
 
 def render(args):
-    out = subprocess.run(args, shell=1, capture_output=1, text=1)
-    if out.returncode:
-        print('An error has occured while rendering the image!')
-        print(out.stderr)
-        raise ValueError('Please check the error message.')
+    os.system(' '.join(args))
+    # out = subprocess.run(args, shell=1, capture_output=1, text=1)
+    # if out.returncode:
+    #     print('An error has occured while rendering the image!')
+    #     print(out.stderr)
+    #     raise ValueError('Please check the error message.')
 
 
 rif_write(file)
