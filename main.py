@@ -1,5 +1,5 @@
 import subprocess
-# import os
+import os
 
 # ===============Variables===============
 # General
@@ -15,12 +15,16 @@ y = 3.500  # Y
 z = 1.200  # Z
 
 # Render Quality
-quality = 'LOW'  # choose from LOW, MEDIUM, or HIGH
+quality = 'HIGH'  # choose from LOW, MEDIUM, or HIGH
 mesh_det = 'HIGH'  # Mesh detail, LOW, MEDIUM, or HIGH
 variability = 'MEDIUM'  # light value variance variability
 indirect = 2  # Choose how indirect the lighting is
 output = 'out.hdr'  # Output image name
 # ===============Variables===============
+
+# Set the PATH variables
+os.environ['PATH'] += os.pathsep + ':/usr/local/radiance/bin'
+os.environ['RAYPATH'] = '.:/usr/local/radiance/lib'
 
 
 def getbbox(rad):
@@ -85,8 +89,8 @@ def opt_write():
 
 
 args = [f'X={x_res};', f'Y={y_res};', 'cnt', '$Y', '$X', '|', 'rcalc', '-f',
-        '2d360.cal', '-e', f'f"XD=$X;YD=$Y;X={x};Y={y};Z={z}"', '|',
-        'rtrace.exe', '-n', str(ncores), '-x', '$X', '-y', '$Y', '-fac',
+        '2d360.cal', '-e', f'"XD=$X;YD=$Y;X={x};Y={y};Z={z}"', '|',
+        'rtrace', '-n', str(ncores), '-x', '$X', '-y', '$Y', '-fac',
         '@saved.opt', oconv, '>', 'out.hdr']
 
 
