@@ -12,3 +12,8 @@ This work is built upon the workflow presented by [Dion Moult](https://thinkmoul
 
 You should replace your .rad file with Geo.rad and your Octree file with render.oct files in the root directory. To initiate the rendering, simply run main.py.
 To tweak the rendering settings, change the corresponding variables in main.py.
+*Equirectangular synthetic image of an office rendered using this method, source: [Author](https://github.com/maqorbani)*
+
+Please note that this script works with MacOS and Linux systems. However, bear in mind that you can still employ [Linux kernel-WSL](https://docs.microsoft.com/en-us/windows/wsl/install) on a Windows machine to render your desired images. Moreover, this is the recommended solution for windows renderings since rtrace command only supports single-core process.
+
+Also note that the Radiance software must be installed on the system in /usr/local/radiance directory.
