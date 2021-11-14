@@ -15,5 +15,5 @@ Also note that the Radiance software must be installed on the system in /usr/loc
 
 ## How it works
 
-You should replace your .rad file with Geo.rad and your Octree file with render.oct files in the root directory. To initiate the rendering, simply run main.py.
+You should substitute your .rad file for Geo.rad and your Octree file for render.oct files in the root directory. To initiate the rendering, simply run main.py.
 To tweak the rendering settings, change the corresponding variables in main.py.
