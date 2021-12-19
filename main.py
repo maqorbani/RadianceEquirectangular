@@ -22,6 +22,15 @@ indirect = 2  # Choose how indirect the lighting is
 output = 'out.hdr'  # Output image name
 # ===============Variables===============
 
+# Checking for Radiance installation + Radiance rtrace commands
+if os.path.exists('/usr/local/radiance/'):
+    print('Radiance folder was found at usr/local/radiance/')
+else:
+    print('Please make sure Radiance is installed at /usr/local/radiance/')
+
+if os.path.exists('/usr/local/radiance/bin/rtrace'):
+    print('Radiance rtrace was found')
+
 # Set the PATH variables
 os.environ['PATH'] += os.pathsep + ':/usr/local/radiance/bin'
 os.environ['RAYPATH'] = '.:/usr/local/radiance/lib'
