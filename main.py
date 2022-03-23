@@ -147,7 +147,7 @@ def opt_write():
 args_ = [f'X={x_res};', f'Y={y_res};', 'cnt', '$Y', '$X', '|', 'rcalc', '-f',
         '2d360.cal', '-e', f'"XD=$X;YD=$Y;X={x};Y={y};Z={z}"', '|',
         'rtrace', '-n', str(ncores), '-x', '$X', '-y', '$Y', '-fac',
-        '@saved.opt', oconv, '>', 'out.hdr']
+        '@saved.opt', oconv, '>', f'{output}']
 
 
 def render(args):
