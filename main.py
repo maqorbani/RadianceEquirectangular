@@ -1,26 +1,73 @@
 import subprocess
 import os
+import sys
 
-# ===============Variables===============
-# General
-ncores = 10  # number of cores to render
-x_res = 2048  # Width of the image which is 2x the height
+
+# ===============Sys__Args===============
+args = sys.argv
+
+try:
+    oconv = args[args.index('-o') + 1]  # Octree's name
+except ValueError:
+    oconv = 'render.oct'  # Octree's name
+
+try:
+    rad = args[args.index('-r') + 1]  # Rad's name
+except ValueError:
+    rad = 'Geo.rad'  # Rad's name
+
+try:
+    ncores = int(args[args.index('-n') + 1])  # number of cores to render
+except ValueError:
+    ncores = 1  # number of cores to render
+
+try:
+    x_res = int(args[args.index('-x') + 1])  # Width of the image which is 2x the height
+except ValueError:
+    x_res = 2048  # Width of the image which is 2x the height
+
 y_res = x_res // 2  # Do not touch this one
-rad = 'Geo.rad'  # Rad's name
-oconv = 'render.oct'  # Octree's name
 
-# Camera's position
-x = 5.000  # X
-y = 3.500  # Y
-z = 1.200  # Z
+try:
+    po = args.index('-p')
+    x = float(args[po + 1])  # X
+    y = float(args[po + 2])  # Y
+    z = float(args[po + 3])  # Z
+except ValueError:
+    x = 5.000  # X
+    y = 3.500  # Y
+    z = 1.200  # Z
 
-# Render Quality
-quality = 'HIGH'  # choose from LOW, MEDIUM, or HIGH
-mesh_det = 'HIGH'  # Mesh detail, LOW, MEDIUM, or HIGH
-variability = 'MEDIUM'  # light value variance variability
-indirect = 2  # Choose how indirect the lighting is
-output = 'out.hdr'  # Output image name
-# ===============Variables===============
+try:
+    quality = args[args.index('--quality') + 1]  # choose from LOW, MEDIUM, or HIGH
+    assert quality in ['LOW', 'MEDIUM', 'HIGH']
+except ValueError:
+    quality = 'HIGH'  # choose from LOW, MEDIUM, or HIGH
+
+try:
+    mesh_det = args[args.index('--mesh') + 1]  # Mesh detail, LOW, MEDIUM, or HIGH
+    assert mesh_det in ['LOW', 'MEDIUM', 'HIGH']
+except ValueError:
+    mesh_det = 'HIGH'  # Mesh detail, LOW, MEDIUM, or HIGH
+
+try:
+    variability = args[args.index('--lvar') + 1]  # light value variance variability
+    assert variability in ['LOW', 'MEDIUM', 'HIGH']
+except ValueError:
+    variability = 'MEDIUM'  # light value variance variability
+
+try:
+    indirect = int(args[args.index('--indir') + 1])  # light value variance variability
+    assert indirect in [0 ,1, 2]
+except ValueError:
+    indirect = 2  # Choose how indirect the lighting is
+
+try:
+    output = args[args.index('--output') + 1]   # Output image name
+except ValueError:
+    output = 'out.hdr'  # Output image name
+
+# ===============Sys__Args===============
 
 # Checking for Radiance installation + Radiance rtrace commands
 if os.path.exists('/usr/local/radiance/'):
@@ -97,7 +144,7 @@ def opt_write():
         raise ValueError('Please check the error message.')
 
 
-args = [f'X={x_res};', f'Y={y_res};', 'cnt', '$Y', '$X', '|', 'rcalc', '-f',
+args_ = [f'X={x_res};', f'Y={y_res};', 'cnt', '$Y', '$X', '|', 'rcalc', '-f',
         '2d360.cal', '-e', f'"XD=$X;YD=$Y;X={x};Y={y};Z={z}"', '|',
         'rtrace', '-n', str(ncores), '-x', '$X', '-y', '$Y', '-fac',
         '@saved.opt', oconv, '>', 'out.hdr']
@@ -114,4 +161,4 @@ def render(args):
 
 rif_write(file)
 opt_write()
-render(args)
+render(args_)
